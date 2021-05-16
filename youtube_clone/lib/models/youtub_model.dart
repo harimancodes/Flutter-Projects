@@ -61,7 +61,7 @@ List<YoutubeModel> youtubeData = [
       viewCount: '27,910,657'),
   YoutubeModel(
       title:
-          "Flutter Crash Course for Beginners 2021 - Build a Flutter App with Google's Flutter & Dart",
+          "Flutter Crash Course for Beginners  - Build a Flutter App with Google's Flutter & Dart",
       likeCount: '28K',
       dislikeCount: '426',
       channelAvatar:
