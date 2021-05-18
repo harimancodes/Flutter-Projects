@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "122422489247",
+    "project_id": "dib-app-32798",
+    "storage_bucket": "dib-app-32798.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:122422489247:android:eecc418447abc800de72aa",
+        "android_client_info": {
+          "package_name": "com.example.dib_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "122422489247-ebskl3gjogqip0km3nf4ism9sphhhf6t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.dib_app",
+            "certificate_hash": "743ef5ab293a81e21643c77476563d174a7b66c8"
+          }
+        },
+        {
+          "client_id": "122422489247-g20gto1u15dp4eb7nisihsahq4naivrv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpyQA081d-UrEeYlVozXe1eEfB0F84rdQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "122422489247-g20gto1u15dp4eb7nisihsahq4naivrv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
