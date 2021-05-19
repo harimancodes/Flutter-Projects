@@ -19,114 +19,72 @@ class _MobileLoginScreenState extends State<MobileLoginScreen> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return SafeArea(
-      top: false,
-      bottom: false,
-      child: Scaffold(
-        key: _scaffoldKey,
-        appBar: AppBar(
-          backgroundColor: Colors.blue,
-          elevation: 0.0,
-        ),
-        body: SingleChildScrollView(
-          physics: ClampingScrollPhysics(),
-          child: Stack(
-            children: <Widget>[
-              Container(
-                height: MediaQuery.of(context).size.height * 0.5,
-                width: MediaQuery.of(context).size.width,
-                child: Container(
-                  child: Center(
-                    child: Text(
-                      'DIB',
-                      style: TextStyle(
-                        fontSize: 100.0,
-                        fontFamily: 'Horizon',
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.blue,
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: const Radius.elliptical(500, 80),
-                      bottomRight: const Radius.elliptical(500, 80),
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.only(top: 420, right: 30, left: 30),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    TextField(
-                      onChanged: (val) {
-                        _phoneNumber = "+91" + val.toString();
-                      },
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        labelText: "Your phone number",
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    if (_isCodeSent == false)
-                      TextButton(
-                        onPressed: _verify,
-                        child: Text(
-                          'Verify',
-                          style: TextStyle(color: Colors.blue),
-                        ),
-                      ),
-                    if (_isCodeSent == true) _showOtpField(),
-                    if (_isCodeSent == true)
-                      if (_showLoading == true)
-                        Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                    SizedBox(
-                      height: 25,
-                    ),
-                    Container(
-                      height: 40.0,
-                      width: 280.0,
-                      child: GestureDetector(
-                        onTap: () async {
-                          PhoneAuthCredential phoneAuthCredential =
-                              PhoneAuthProvider.credential(
-                                  verificationId: _verifictaionId,
-                                  smsCode: _otp);
-                          _loiginWithPhoneAuth(phoneAuthCredential);
-                        },
-                        child: Material(
-                          borderRadius: BorderRadius.circular(20),
-                          shadowColor: Colors.blueAccent,
-                          color: Colors.blue,
-                          elevation: 7.0,
-                          child: Center(
-                            child: Text(
-                              "Submit",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                  ],
-                ),
-              ),
-            ],
+    return Container(
+      padding: EdgeInsets.only(top: 420, right: 30, left: 30),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          TextField(
+            onChanged: (val) {
+              _phoneNumber = "+91" + val.toString();
+            },
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(
+              labelText: "Your phone number",
+            ),
           ),
-        ),
+          SizedBox(
+            height: 10,
+          ),
+          if (_isCodeSent == false)
+            TextButton(
+              onPressed: _verify,
+              child: Text(
+                'Verify',
+                style: TextStyle(color: Colors.blue),
+              ),
+            ),
+          if (_isCodeSent == true) _showOtpField(),
+          if (_isCodeSent == true)
+            if (_showLoading == true)
+              Center(
+                child: CircularProgressIndicator(),
+              ),
+          SizedBox(
+            height: 25,
+          ),
+          Container(
+            height: 40.0,
+            width: 280.0,
+            child: GestureDetector(
+              onTap: () async {
+                PhoneAuthCredential phoneAuthCredential =
+                    PhoneAuthProvider.credential(
+                        verificationId: _verifictaionId, smsCode: _otp);
+                _loiginWithPhoneAuth(phoneAuthCredential);
+              },
+              child: Material(
+                borderRadius: BorderRadius.circular(20),
+                shadowColor: Colors.blueAccent,
+                color: Colors.blue,
+                elevation: 7.0,
+                child: Center(
+                  child: Text(
+                    "Submit",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        color: Colors.white),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 30,
+          ),
+        ],
       ),
     );
   }
