@@ -150,7 +150,7 @@ class _MobileLoginScreenState extends State<MobileLoginScreen> {
       }
     } on FirebaseAuthException catch (exception) {
       setState(() {
-        _showLoading = true;
+        _showLoading = false;
       });
       _scaffoldKey.currentState.showSnackBar(
         SnackBar(content: Text(exception.message)),

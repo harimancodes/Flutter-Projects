@@ -17,7 +17,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   Widget build(BuildContext context) {
     return _chosenReg == null
         ? _regChooserForm()
-        : _regOPtionalForm(_chosenReg);
+        : _regOPtionalForm(_chosenReg,_email,_password);
   }
 
   Widget _regButton(String text) {
@@ -88,7 +88,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     );
   }
 
-  Widget _regOPtionalForm(ChosenReg chosenReg) {
-    return RegOptionalScreen(chosenReg);
+  Widget _regOPtionalForm(ChosenReg chosenReg,String email,String password) {
+    return RegOptionalScreen(chosenReg,email,password);
   }
 }

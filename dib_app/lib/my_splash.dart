@@ -48,17 +48,27 @@ class _MySplashState extends State<MySplash> {
       top: false,
       bottom: false,
       child: Scaffold(
-        backgroundColor: Colors.blue,
-        body: Center(
-          child: ColorizeAnimatedTextKit(
-            text: ['DIB'],
-            textStyle: textStyle,
-            colors: colorizeColors,
-            isRepeatingAnimation: false,
-            speed: Duration(seconds: 1),
-          ),
-        ),
-      ),
+          backgroundColor: Colors.blue,
+          body: Center(
+            child: Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ColorizeAnimatedTextKit(
+                    text: ['DIB'],
+                    textStyle: textStyle,
+                    colors: colorizeColors,
+                    isRepeatingAnimation: false,
+                    speed: Duration(seconds: 1),
+                  ),
+                  FadeAnimatedTextKit(
+                    text: ['The best place to buy and sell stuffs.'],
+                    textStyle: TextStyle(color: Colors.white),
+                  duration: Duration(seconds:3),),
+                ],
+              ),
+            ),
+          )),
     );
   }
 }

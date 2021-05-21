@@ -23,7 +23,8 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
         body: Container(
           child: Row(
             children: [
-              Text('phone : ${widget.user.phNum}'),
+              //Text('phone : ${widget.user.phNum}'),
+              Text('email : ${widget.user.email}'),
               TextButton(
                   onPressed: () async {
                     await _auth.signOut();

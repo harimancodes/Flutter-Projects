@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -5,14 +6,20 @@ import 'registration_screen.dart';
 
 class RegOptionalScreen extends StatefulWidget {
   final _chosenReg;
-  RegOptionalScreen(this._chosenReg);
+  String _email, _password;
+  RegOptionalScreen(this._chosenReg, this._email, this._password);
   @override
   State<StatefulWidget> createState() => _RegOptionalScreenState();
 }
 
 class _RegOptionalScreenState extends State<RegOptionalScreen> {
-  String _shopName, _mobNum, _otp;
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  String _shopName, _mobNum, _otp, _verifictaionId;
+  int _resendingToken;
   bool _isMobNumEntered = false;
+  bool _showLoading = false, _isCodeSent = false, _isVerified = false;
+  bool _isCorrectOtp = true;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return widget._chosenReg == ChosenReg.REG_AS_OWNER
@@ -64,16 +71,61 @@ class _RegOptionalScreenState extends State<RegOptionalScreen> {
                 counterText: '',
                 isDense: true,
                 labelText: "OTP",
+                errorText: _isCorrectOtp ? null : "Wrong OTP!",
+                errorStyle: TextStyle(color: Colors.red),
+                errorBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.red),
+                ),
+                focusedErrorBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.red),
+                ),
                 labelStyle: TextStyle(letterSpacing: 2.0)),
           ),
         ),
         TextButton(
-          child: Text(
-            'Verify',
-            style: TextStyle(color: Colors.blue),
+          child: _isVerified
+              ? Text(
+                  'Verified',
+                  style: TextStyle(color: Colors.green),
+                )
+              : Text(
+                  'Verify',
+                  style: TextStyle(color: Colors.blue),
+                ),
+          onPressed: () async {
+            setState(() {
+              _showLoading = true;
+            });
+            print("Otp : ${_otp}");
+
+            PhoneAuthCredential phoneAuthCredential =
+                PhoneAuthProvider.credential(
+                    verificationId: _verifictaionId, smsCode: _otp);
+
+
+            print('Phone Auth Crednetial : ${phoneAuthCredential.toString()}');
+            // try {
+            //   final authResult =
+            //       await _auth.signInWithCredential(phoneAuthCredential);
+            //   if (authResult?.user != null) {
+            //     setState(() {
+            //       _isCorrectOtp = true;
+            //       _isVerified = true;
+            //     });
+            //   }
+            // } catch (error) {
+            //   setState(() {
+            //     _isCorrectOtp = false;
+            //   });
+            // }
+
+            //  if (_auth.currentUser.phoneNumber != null) _isVerified = true;
+          },
+        ),
+        if (_showLoading == true)
+          Center(
+            child: CircularProgressIndicator(),
           ),
-          onPressed: () {},
-        )
       ],
     );
   }
@@ -95,13 +147,14 @@ class _RegOptionalScreenState extends State<RegOptionalScreen> {
             ),
           ),
           ListTile(
-            contentPadding: EdgeInsets.only(left: 0),
+            contentPadding: EdgeInsets.only(left: 0, right: 40),
             leading: Container(
+              width: MediaQuery.of(context).size.width * 0.55,
               child: TextField(
                 maxLength: 10,
                 onChanged: (val) {
-                  _mobNum = val.toString();
-                  if (_mobNum.length == 10)
+                  _mobNum = "+91" + val.toString();
+                  if (_mobNum.length == 13)
                     setState(() {
                       _isMobNumEntered = true;
                     });
@@ -124,7 +177,8 @@ class _RegOptionalScreenState extends State<RegOptionalScreen> {
               child: Text(
                 'Get OTP',
               ),
-              onPressed: _isMobNumEntered ? () {} : null,
+
+              onPressed: _isMobNumEntered ? _verify : null,
             ),
           ),
           _showOtpField(),
@@ -137,5 +191,37 @@ class _RegOptionalScreenState extends State<RegOptionalScreen> {
 
   Widget _regAsIndividual() {
     return null;
+  }
+
+  void _verify() async {
+    print('Phone number : ${_mobNum}');
+    setState(() {
+      _showLoading = true;
+    });
+    await _auth.verifyPhoneNumber(
+      phoneNumber: _mobNum,
+      verificationCompleted: (phoneAuthCredential) async {
+        setState(() {
+          _showLoading = false;
+        });
+      },
+      verificationFailed: (phoneVerificationFailed) async {
+        setState(() {
+          _showLoading = false;
+        });
+        // _scaffoldKey.currentState.showSnackBar(
+        //   //SnackBar(content: Text(phoneVerificationFailed.message)),
+        // );
+      },
+      codeSent: (verificationId, resendingToken) async {
+        setState(() {
+          _isCodeSent = true;
+          _showLoading = false;
+          this._resendingToken = resendingToken;
+          this._verifictaionId = verificationId;
+        });
+      },
+      codeAutoRetrievalTimeout: (verificationId) async {},
+    );
   }
 }
